@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Test na Rakovinu Plic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Test na Rakovinu Plic</h1>
+    <form id="testForm">
+        <label>Kolik cigaret vykouříte denně?</label><br>
+        <input type="number" id="cigarettes" min="0" required><br><br>
+
+        <label>Jaká je kvalita vzduchu v okolí (ppm)?</label><br>
+        <input type="number" id="airQuality" min="0" required><br><br>
+
+        <label>Názor doktora:</label><br>
+        <select id="doctorOpinion" required>
+            <option value="0">Usmívá se</option>
+            <option value="10">Lehké obavy</option>
+            <option value="30">Měl bych něco dělat</option>
+            <option value="50">Musím jít na rentgen</option>
+            <option value="100">Řve na mě</option>
+        </select><br><br>
+
+        <label>Vaše váha (kg):</label><br>
+        <input type="number" id="weight" min="30" required><br><br>
+
+        <label>Věk (let):</label><br>
+        <input type="number" id="age" min="0" required><br><br>
+
+        <label>Čas, kdy jste kouřil naposled:</label><br>
+        <select id="lastSmoke" required>
+            <option value="100">1 den</option>
+            <option value="90">1 týden</option>
+            <option value="70">1 měsíc</option>
+            <option value="50">6 měsíců</option>
+            <option value="40">1 rok</option>
+            <option value="20">2 roky</option>
+            <option value="10">5 let</option>
+        </select><br><br>
+
+        <button type="submit">Vyhodnotit</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById('testForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const cigarettes = parseInt(document.getElementById('cigarettes').value);
+            const airQuality = parseInt(document.getElementById('airQuality').value);
+            const doctorOpinion = parseInt(document.getElementById('doctorOpinion').value);
+            const weight = parseInt(document.getElementById('weight').value);
+            const age = parseInt(document.getElementById('age').value);
+            const lastSmoke = parseInt(document.getElementById('lastSmoke').value);
+
+            // Vypočítání bodů podle počtu cigaret
+            let cigaretteScore;
+            if (cigarettes >= 1 && cigarettes <= 10) cigaretteScore = 20;
+            else if (cigarettes >= 20 && cigarettes <= 50) cigaretteScore = 50;
+            else if (cigarettes >= 50 && cigarettes <= 100) cigaretteScore = 80;
+            else if (cigarettes >= 100 && cigarettes <= 200) cigaretteScore = 90;
+            else if (cigarettes > 200) cigaretteScore = 100;
+            else cigaretteScore = 0;
+
+            // Vypočítání bodů podle kvality vzduchu
+            let airQualityScore;
+            if (airQuality <= 50) airQualityScore = 0;
+            else if (airQuality <= 200) airQualityScore = 50;
+            else if (airQuality <= 500) airQualityScore = 70;
+            else if (airQuality <= 1000) airQualityScore = 90;
+            else if (airQuality <= 7000) airQualityScore = 100;
+            else airQualityScore = 0;
+
+            // Vypočítání bodů podle váhy
+            let weightScore;
+            if (weight >= 30 && weight <= 50) weightScore = 10;
+            else if (weight <= 80) weightScore = 30;
+            else if (weight <= 120) weightScore = 50;
+            else if (weight <= 300) weightScore = 90;
+            else if (weight <= 1000) weightScore = 100;
+            else weightScore = 0;
+
+            // Vypočítání bodů podle věku
+            let ageScore;
+            if (age <= 10) ageScore = 10;
+            else if (age <= 20) ageScore = 30;
+            else if (age <= 60) ageScore = 40;
+            else if (age <= 90) ageScore = 50;
+            else if (age <= 200) ageScore = 90;
+            else if (age <= 900) ageScore = 100;
+            else ageScore = 0;
+
+            // Vypočítání průměru
+            const totalScore = (cigaretteScore + airQualityScore + doctorOpinion + weightScore + ageScore + lastSmoke) / 6;
+            
+            // Zobrazení výsledku
+            let resultText = `Vaše riziko rakoviny plic je: ${totalScore.toFixed(2)}%`;
+            if (totalScore > 50) {
+                resultText += "<br><strong>!RAK!</strong>";
+            }
+            document.getElementById('result').innerHTML = resultText;
+        });
+    </script>
+</body>
+</html>
