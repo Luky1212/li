@@ -27,37 +27,61 @@
 <body>
     <h1>Online Test na Rakovinu Plic</h1>
     <form id="testForm">
-        <label>Kolik cigaret vykouříte denně?</label><br>
-        <input type="number" id="cigarettes" min="0" required><br><br>
+        <fieldset>
+            <legend>1. Kolik cigaret vykouříte denně?</legend>
+            <label><input type="radio" name="cigarettes" value="20" required> A) 1-10</label><br>
+            <label><input type="radio" name="cigarettes" value="50"> B) 20-50</label><br>
+            <label><input type="radio" name="cigarettes" value="80"> C) 50-100</label><br>
+            <label><input type="radio" name="cigarettes" value="90"> D) 100-200</label><br>
+            <label><input type="radio" name="cigarettes" value="100"> E) 200+</label>
+        </fieldset>
+        
+        <fieldset>
+            <legend>2. Jaká je kvalita vzduchu v okolí (ppm)?</legend>
+            <label><input type="radio" name="airQuality" value="0" required> A) 0-50</label><br>
+            <label><input type="radio" name="airQuality" value="50"> B) 51-200</label><br>
+            <label><input type="radio" name="airQuality" value="70"> C) 201-500</label><br>
+            <label><input type="radio" name="airQuality" value="90"> D) 501-1000</label><br>
+            <label><input type="radio" name="airQuality" value="100"> E) 1001+</label>
+        </fieldset>
 
-        <label>Jaká je kvalita vzduchu v okolí (ppm)?</label><br>
-        <input type="number" id="airQuality" min="0" required><br><br>
+        <fieldset>
+            <legend>3. Názor doktora:</legend>
+            <label><input type="radio" name="doctorOpinion" value="0" required> A) Usmívá se</label><br>
+            <label><input type="radio" name="doctorOpinion" value="10"> B) Lehké obavy</label><br>
+            <label><input type="radio" name="doctorOpinion" value="30"> C) Měl bych něco dělat</label><br>
+            <label><input type="radio" name="doctorOpinion" value="50"> D) Musím jít na rentgen</label><br>
+            <label><input type="radio" name="doctorOpinion" value="100"> E) Řve na mě</label>
+        </fieldset>
 
-        <label>Názor doktora:</label><br>
-        <select id="doctorOpinion" required>
-            <option value="0">Usmívá se</option>
-            <option value="10">Lehké obavy</option>
-            <option value="30">Měl bych něco dělat</option>
-            <option value="50">Musím jít na rentgen</option>
-            <option value="100">Řve na mě</option>
-        </select><br><br>
+        <fieldset>
+            <legend>4. Vaše váha (kg):</legend>
+            <label><input type="radio" name="weight" value="10" required> A) 30-50</label><br>
+            <label><input type="radio" name="weight" value="30"> B) 60-80</label><br>
+            <label><input type="radio" name="weight" value="50"> C) 90-120</label><br>
+            <label><input type="radio" name="weight" value="90"> D) 150-300</label><br>
+            <label><input type="radio" name="weight" value="100"> E) 600+</label>
+        </fieldset>
 
-        <label>Vaše váha (kg):</label><br>
-        <input type="number" id="weight" min="30" required><br><br>
+        <fieldset>
+            <legend>5. Věk (let):</legend>
+            <label><input type="radio" name="age" value="10" required> A) 0-10</label><br>
+            <label><input type="radio" name="age" value="30"> B) 11-20</label><br>
+            <label><input type="radio" name="age" value="40"> C) 21-60</label><br>
+            <label><input type="radio" name="age" value="50"> D) 61-90</label><br>
+            <label><input type="radio" name="age" value="90"> E) 91+</label>
+        </fieldset>
 
-        <label>Věk (let):</label><br>
-        <input type="number" id="age" min="0" required><br><br>
-
-        <label>Čas, kdy jste kouřil naposled:</label><br>
-        <select id="lastSmoke" required>
-            <option value="100">1 den</option>
-            <option value="90">1 týden</option>
-            <option value="70">1 měsíc</option>
-            <option value="50">6 měsíců</option>
-            <option value="40">1 rok</option>
-            <option value="20">2 roky</option>
-            <option value="10">5 let</option>
-        </select><br><br>
+        <fieldset>
+            <legend>6. Čas, kdy jste kouřil naposled:</legend>
+            <label><input type="radio" name="lastSmoke" value="100" required> A) 1 den</label><br>
+            <label><input type="radio" name="lastSmoke" value="90"> B) 1 týden</label><br>
+            <label><input type="radio" name="lastSmoke" value="70"> C) 1 měsíc</label><br>
+            <label><input type="radio" name="lastSmoke" value="50"> D) 6 měsíců</label><br>
+            <label><input type="radio" name="lastSmoke" value="40"> E) 1 rok</label><br>
+            <label><input type="radio" name="lastSmoke" value="20"> F) 2 roky</label><br>
+            <label><input type="radio" name="lastSmoke" value="10"> G) 5 let</label>
+        </fieldset>
 
         <button type="submit">Vyhodnotit</button>
     </form>
@@ -68,53 +92,16 @@
         document.getElementById('testForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const cigarettes = parseInt(document.getElementById('cigarettes').value);
-            const airQuality = parseInt(document.getElementById('airQuality').value);
-            const doctorOpinion = parseInt(document.getElementById('doctorOpinion').value);
-            const weight = parseInt(document.getElementById('weight').value);
-            const age = parseInt(document.getElementById('age').value);
-            const lastSmoke = parseInt(document.getElementById('lastSmoke').value);
-
-            // Vypočítání bodů podle počtu cigaret
-            let cigaretteScore;
-            if (cigarettes >= 1 && cigarettes <= 10) cigaretteScore = 20;
-            else if (cigarettes >= 20 && cigarettes <= 50) cigaretteScore = 50;
-            else if (cigarettes >= 50 && cigarettes <= 100) cigaretteScore = 80;
-            else if (cigarettes >= 100 && cigarettes <= 200) cigaretteScore = 90;
-            else if (cigarettes > 200) cigaretteScore = 100;
-            else cigaretteScore = 0;
-
-            // Vypočítání bodů podle kvality vzduchu
-            let airQualityScore;
-            if (airQuality <= 50) airQualityScore = 0;
-            else if (airQuality <= 200) airQualityScore = 50;
-            else if (airQuality <= 500) airQualityScore = 70;
-            else if (airQuality <= 1000) airQualityScore = 90;
-            else if (airQuality <= 7000) airQualityScore = 100;
-            else airQualityScore = 0;
-
-            // Vypočítání bodů podle váhy
-            let weightScore;
-            if (weight >= 30 && weight <= 50) weightScore = 10;
-            else if (weight <= 80) weightScore = 30;
-            else if (weight <= 120) weightScore = 50;
-            else if (weight <= 300) weightScore = 90;
-            else if (weight <= 1000) weightScore = 100;
-            else weightScore = 0;
-
-            // Vypočítání bodů podle věku
-            let ageScore;
-            if (age <= 10) ageScore = 10;
-            else if (age <= 20) ageScore = 30;
-            else if (age <= 60) ageScore = 40;
-            else if (age <= 90) ageScore = 50;
-            else if (age <= 200) ageScore = 90;
-            else if (age <= 900) ageScore = 100;
-            else ageScore = 0;
+            const cigarettesScore = parseInt(document.querySelector('input[name="cigarettes"]:checked').value);
+            const airQualityScore = parseInt(document.querySelector('input[name="airQuality"]:checked').value);
+            const doctorOpinionScore = parseInt(document.querySelector('input[name="doctorOpinion"]:checked').value);
+            const weightScore = parseInt(document.querySelector('input[name="weight"]:checked').value);
+            const ageScore = parseInt(document.querySelector('input[name="age"]:checked').value);
+            const lastSmokeScore = parseInt(document.querySelector('input[name="lastSmoke"]:checked').value);
 
             // Vypočítání průměru
-            const totalScore = (cigaretteScore + airQualityScore + doctorOpinion + weightScore + ageScore + lastSmoke) / 6;
-            
+            const totalScore = (cigarettesScore + airQualityScore + doctorOpinionScore + weightScore + ageScore + lastSmokeScore) / 6;
+
             // Zobrazení výsledku
             let resultText = `Vaše riziko rakoviny plic je: ${totalScore.toFixed(2)}%`;
             if (totalScore > 50) {
